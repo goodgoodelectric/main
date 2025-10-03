@@ -2,7 +2,7 @@
   Good Good Electric — Single-Page Website
   Tech: Pure HTML + CSS (no frameworks)
   Images: Unsplash (free to use, license: https://unsplash.com/license)
-  Replace image URLs with your own later if you wishh.
+  Replace image URLs with your own later if you wish.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -13,10 +13,226 @@
   <meta name="description" content="Good Good Electric provides reliable handyman services in Los Angeles. Call (754) 666-6766 or email info@goodgoodelectric.com" />
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
   <style>
-  /* Inline CSS is included here (shortened for brevity in this file generation) */
+    :root{
+      --brand:#facc15;
+      --brand-dark:#eab308;
+      --ink:#0a0a0a;
+      --muted:#6b7280;
+      --bg:#fafafa;
+      --card:#ffffff;
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,0.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);scroll-behavior:smooth}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+    .nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.8);backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid #eee}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),#fff);border:2px solid var(--ink);display:grid;place-items:center;font-weight:900}
+    .nav-links{display:none;gap:22px}
+    .cta{background:var(--brand);border:0;border-radius:999px;padding:10px 16px;font-weight:700;box-shadow:var(--shadow)}
+    .cta:hover{background:var(--brand-dark)}
+    @media(min-width:860px){.nav-links{display:flex}}
+
+    .hero{position:relative;isolation:isolate}
+    .hero .bg{position:absolute;inset:0;z-index:-1;overflow:hidden}
+    .hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55))}
+    .hero .bg img{width:100%;height:100%;object-fit:cover;filter:saturate(1.1)}
+    .hero .content{padding:96px 0 84px;color:#fff}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(250,204,21,.15);border:1px solid rgba(250,204,21,.35)}
+    .hero h1{font-size:clamp(28px,5vw,48px);margin:14px 0 10px}
+    .hero p{max-width:720px;font-size:clamp(16px,2.2vw,19px);line-height:1.6;color:#f3f4f6}
+    .actions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:700;border:2px solid transparent}
+    .btn.primary{background:var(--brand);color:#000}
+    .btn.primary:hover{background:var(--brand-dark)}
+    .btn.secondary{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+    .btn.secondary:hover{background:rgba(255,255,255,.2)}
+
+    section{padding:72px 0}
+    .section-title{font-size:28px;margin:0 0 10px}
+    .section-sub{color:var(--muted);margin:0 0 28px}
+
+    .grid{display:grid;gap:18px}
+    @media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr)}}
+    .card{background:var(--card);border:1px solid #eee;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .card h3{margin:8px 0 6px}
+    .card p{color:var(--muted);margin:0}
+
+    .testi{display:grid;gap:18px}
+    @media(min-width:860px){.testi{grid-template-columns:repeat(3,1fr)}}
+    blockquote{background:var(--card);border:1px solid #eee;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:0}
+    blockquote p{margin:0 0 10px}
+    cite{color:var(--muted);font-style:normal}
+
+    .contact{display:grid;gap:20px}
+    @media(min-width:900px){.contact{grid-template-columns:1.2fr .8fr;align-items:start}}
+    form{background:var(--card);border:1px solid #eee;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    label{display:block;font-weight:600;margin:12px 0 8px}
+    input,textarea{width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:12px;font:inherit}
+    textarea{min-height:120px;resize:vertical}
+    .send{margin-top:14px}
+
+    footer{padding:32px 0;border-top:1px solid #eee;color:#111}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    [data-animate]{opacity:0;animation:fadeUp .8s ease forwards}
+    [data-animate].del1{animation-delay:.1s}
+    [data-animate].del2{animation-delay:.2s}
+    [data-animate].del3{animation-delay:.3s}
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+    }
   </style>
+  <script>
+    const onScroll = () => {
+      document.querySelectorAll('[data-animate]')
+        .forEach(el=>{
+          const r = el.getBoundingClientRect();
+          if(r.top < innerHeight - 80) el.classList.add('revealed');
+        });
+    };
+    document.addEventListener('DOMContentLoaded',()=>{
+      onScroll();
+      document.addEventListener('scroll', onScroll, {passive:true});
+    });
+  </script>
 </head>
 <body>
-  <!-- Body content shortened for brevity, full code in conversation -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#home" class="brand" aria-label="Go to home">
+        <span class="logo">⚡</span> Good Good Electric
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="cta" href="tel:+17546666766">Call (754) 666‑6766</a>
+    </div>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="bg" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?q=80&w=1920&auto=format&fit=crop" alt="Handyman working with tools"/>
+    </div>
+    <div class="container content">
+      <span class="pill" data-animate>Los Angeles</span>
+      <h1 data-animate class="del1">Handyman Services — Done Right</h1>
+      <p data-animate class="del2">From furniture assembly and TV mounting to minor drywall, caulking, and home repairs. Friendly service, fair pricing, clean work.</p>
+      <div class="actions" data-animate class="del3">
+        <a href="#contact" class="btn primary">Get a Free Quote</a>
+        <a href="mailto:info@goodgoodelectric.com" class="btn secondary">info@goodgoodelectric.com</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="container">
+    <h2 class="section-title">Services</h2>
+    <p class="section-sub">Small jobs welcome. Safety first, always.</p>
+    <div class="grid">
+      <div class="card" data-animate>
+        <h3>TV Mounting</h3>
+        <p>Clean installs, wire concealment, and device setup.</p>
+      </div>
+      <div class="card" data-animate class="del1">
+        <h3>Furniture Assembly</h3>
+        <p>Quick and careful setup of furniture and shelving.</p>
+      </div>
+      <div class="card" data-animate class="del2">
+        <h3>Minor Drywall & Caulking</h3>
+        <p>Patching holes, sealing gaps, and touch-ups.</p>
+      </div>
+      <div class="card" data-animate>
+        <h3>Hardware Installation</h3>
+        <p>Door handles, curtain rods, shelves, and wall hangings.</p>
+      </div>
+      <div class="card" data-animate class="del1">
+        <h3>Painting Touch-ups</h3>
+        <p>Small areas, accent walls, and handyman paint fixes.</p>
+      </div>
+      <div class="card" data-animate class="del2">
+        <h3>General Handyman Tasks</h3>
+        <p>Honey‑do lists, odd jobs, and home maintenance tasks under $500.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="container">
+    <div class="grid" style="grid-template-columns:1.1fr .9fr;align-items:center">
+      <div>
+        <h2 class="section-title">About Good Good Electric</h2>
+        <p class="section-sub">Punctual, tidy, and transparent pricing.</p>
+        <p>Hi! I'm your local handyman. I treat every home like my own—protecting surfaces, cleaning up, and keeping you updated along the way. Most visits are completed the same day.</p>
+        <p>Serving Los Angeles. Clear estimates. Quality parts. Your satisfaction guaranteed.</p>
+      </div>
+      <div>
+        <img src="https://images.unsplash.com/photo-1606167668584-78701c57f13d?q=80&w=1200&auto=format&fit=crop" alt="Handyman tools neatly organized" style="border-radius:14px;box-shadow:var(--shadow)"/>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="container">
+    <h2 class="section-title">Happy Customers</h2>
+    <div class="testi">
+      <blockquote data-animate>
+        <p>“Arrived on time and mounted our TV perfectly. Super tidy and friendly.”</p>
+        <cite>— Maria L.</cite>
+      </blockquote>
+      <blockquote data-animate class="del1">
+        <p>“Fixed small repairs quickly and professionally. Great value.”</p>
+        <cite>— Darren P.</cite>
+      </blockquote>
+      <blockquote data-animate class="del2">
+        <p>“Furniture assembly was flawless—saved me hours. Highly recommend!”</p>
+        <cite>— Kiara S.</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="contact" class="container">
+    <h2 class="section-title">Contact</h2>
+    <p class="section-sub">Tell me about your project and I’ll reply quickly.</p>
+    <div class="contact">
+      <form name="contact" onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you shortly.');">
+        <label for="name">Name</label>
+        <input id="name" name="name" required placeholder="Your full name" />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@example.com" />
+
+        <label for="message">How can I help?</label>
+        <textarea id="message" name="message" required placeholder="Briefly describe the work"></textarea>
+
+        <button class="cta send" type="submit">Send Message</button>
+      </form>
+
+      <aside>
+        <div class="card">
+          <h3>Reach me directly</h3>
+          <p><strong>Phone:</strong> <a href="tel:+17546666766">(754) 666‑6766</a></p>
+          <p><strong>Email:</strong> <a href="mailto:info@goodgoodelectric.com">info@goodgoodelectric.com</a></p>
+          <p style="margin-top:10px;color:var(--muted);font-size:14px">Business hours: Mon–Sat, 8am–6pm</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+      <p style="margin:0">© <span id="year"></span> Good Good Electric. All rights reserved.</p>
+      <a href="#home" class="pill" aria-label="Back to top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
